@@ -2,7 +2,9 @@
 
 [![CI](https://github.com/gmelnitsky/GoodTa/actions/workflows/ci.yml/badge.svg)](https://github.com/gmelnitsky/GoodTa/actions/workflows/ci.yml)
 
-A place to learn DSA topics by **writing the code yourself** and running it.
+A practice harness I built for the students I TA — learn DSA topics by **writing the
+code yourself** and running it. The name is the goal: the kind of scaffolding a good TA
+leaves behind so students can keep practicing when office hours are closed.
 
 ## How it works
 

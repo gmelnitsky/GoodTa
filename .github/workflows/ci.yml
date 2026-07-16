@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Compile & run JUnit suite
+    runs-on: ubuntu-latest
+    env:
+      JUNIT_VERSION: "1.10.5"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17 (Temurin)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Download JUnit Platform Console Standalone
+        run: |
+          mkdir -p lib
+          curl -fSL -o lib/junit-console.jar \
+            "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/${JUNIT_VERSION}/junit-platform-console-standalone-${JUNIT_VERSION}.jar"
+
+      - name: Compile sources and tests
+        run: |
+          mkdir -p out
+          javac -cp lib/junit-console.jar -d out $(find src test -name '*.java')
+
+      - name: Run tests (JUnit Console Launcher)
+        run: |
+          java -jar lib/junit-console.jar execute \
+            --class-path out \
+            --scan-class-path \
+            --fail-if-no-tests \
+            --details=tree
